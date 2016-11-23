@@ -1,6 +1,6 @@
 
 # check cmake requirements
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.0.3)
 
 ######################## begin of project
 project(TranskribusInterfaces)
@@ -18,15 +18,21 @@ set(TI_VERSION ${TI_VERSION_MAJOR}.${TI_VERSION_MINOR})
 
 add_definitions(-DTI_VERSION="${TI_VERSION}")
 
-set(BINARY_NAME ${CMAKE_PROJECT_NAME})
-
-option(WITH_HIGHGUI "WITH HIGHGUI" OFF)
-option(WITH_CURL "WITH CURL" OFF)
-
 # load paths from the user file if exists 
 if(EXISTS ${CMAKE_SOURCE_DIR}/CMakeUser.cmake)
 	include(${CMAKE_SOURCE_DIR}/CMakeUser.cmake)
 endif()
+
+set(BINARY_NAME ${CMAKE_PROJECT_NAME})
+
+# Find includes in corresponding build directories (needed if Qt is required)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+# Instruct CMake to run moc automatically when needed (Qt).
+set(CMAKE_AUTOMOC ON)
+
+option(WITH_HIGHGUI "WITH HIGHGUI" OFF)
+option(WITH_CURL "WITH CURL" OFF)
+
 
 # check compiler
 include(CheckCXXCompilerFlag)
@@ -49,16 +55,13 @@ if(MSVC)
 else()
 	set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/)
 	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/)
-	set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/)	
+	set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/)
 endif()
 
 include(${CMAKE_CURRENT_SOURCE_DIR}/Utils.cmake)
 
 TI_FIND_OPENCV()
 TI_FIND_CURL()
-
-file(GLOB TI_TEST_SOURCES "test_image/*.cpp")
-file(GLOB TI_TEST_HEADERS "test_image/*.h")
 
 # interface
 file(GLOB TI_INTERFACE_SOURCES "*.cpp")
@@ -74,9 +77,14 @@ TI_CREATE_TARGETS()
 
 # add test plugin
 option(WITH_TEST_PLUGIN "WITH TEST PLUGIN" OFF)
+option(WITH_WRITERRETRIEVAL "WITH WRITER RETRIEVAL" OFF)
 
 if (WITH_TEST_PLUGIN)
 	add_subdirectory(example_plugin)
+endif()
+
+if (WITH_WRITERRETRIEVAL)
+	add_subdirectory(writerretrieval_plugin)
 endif()
 
 if (MSVC)
