@@ -6,33 +6,28 @@
 package eu.transkribus.interfaces;
 
 import eu.transkribus.interfaces.types.Image;
-import eu.transkribus.interfaces.types.Region;
 
 /**
  * Interface to calculate to given surrounding polygons the corresponding
  * baseline. The number (and order) of returned regions have to match the number
  * of surrounding polygons. Maybe this interface is not needed - it is the
- * "reverse" interface from {@link eu.transkribus.interfaces.IBaseLine2Coords}.
+ * "reverse" interface from {@link eu.transkribus.interfaces.IBaseline2Polygon}.
  *
  * @author gundram
+ *  @deprecated not finalized yet
  */
-public interface ICoords2BaseLine {
+public interface IPolygon2Baseline extends IModule {
 
     /**
      * needed??
      *
      * @param img
-     * @param coords
+     * @param pageXmlIn
+     * @param pageXmlOut
      * @return
      */
-    public Region process(Image img, Region coords);
+//    public boolean process(Image img, String pageXmlIn, String pageXmlOut);
 
-    /**
-     *
-     * @param img
-     * @param coords
-     * @return
-     */
-    public Region[] process(Image img, Region[] coords);
+    public void process(Image img, String xmlInOut, String[] idxs, String[] props);
 
 }

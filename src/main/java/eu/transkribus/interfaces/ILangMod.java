@@ -10,8 +10,9 @@ import eu.transkribus.interfaces.types.Token;
 /**
  *
  * @author gundram
+ * 
  */
-public interface ILangMod {
+public interface ILangMod extends IModule {
 
     public void setTopN(int topN);
 

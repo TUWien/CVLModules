@@ -31,10 +31,9 @@ public class Token {
 
     /**
      * returns the given probability (either the unigram probability or the
-     * conditional probability for a given prefix)<br/>
-     * maybe Log Likelyhoods would be better
+     * conditional probability for a given prefix)
      *
-     * @return probability [0,1] or llh [-\infinity,0]
+     * @return log likelyhood [-\infinity,0]
      */
     public double getProb() {
         return prob;
