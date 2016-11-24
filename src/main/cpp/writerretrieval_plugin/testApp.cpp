@@ -60,7 +60,8 @@ void test() {
 
 	std::string libName("MyWriterRetrieval.dll");
 
-	transkribus::Image image("C:/temp/test.jpg");
+	//transkribus::Image image("C:/temp/test.jpg");
+	transkribus::Image image("D:/Databases/icdar2011/cropped/1-1.png");
 
 	std::vector<std::string> constructorPars;
 	try {
@@ -68,7 +69,9 @@ void test() {
 		wr = transkribus::ModuleFactory::castIWriterRetrieval(module);
 
 		std::vector<std::string> ids;
+		ids.push_back("vocPath");
 		std::vector<std::string> props;
+		props.push_back("E:/Databases/writer-identification-competition/vocs/trigraph-gmm-pca64-40cluster-max90-min0-woNormbeforePCA.yml");
 		std::string feature = wr->process(image, "pageXmlFileUrl", ids, props);
 
 		std::cout << "writer retrieval feature:" << std::endl;

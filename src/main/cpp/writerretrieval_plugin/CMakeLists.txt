@@ -52,13 +52,29 @@ add_executable(${TI_EXAMPLE_NAME} WIN32  MACOSX_BUNDLE ${TI_EXAMPLE_SOURCES})
 target_link_libraries(${TI_EXAMPLE_NAME} ${TI_INTERFACE_NAME} ${OpenCV_LIBS} ${CURL_LIBRARY})
 set_target_properties(${TI_EXAMPLE_NAME} PROPERTIES LINK_FLAGS "/SUBSYSTEM:CONSOLE")
 
-add_dependencies(${TI_EXAMPLE_NAME} ${TI_INTERFACE_NAME})
+add_dependencies(${TI_EXAMPLE_NAME} ${TI_INTERFACE_NAME} ${TI_PLUGIN_NAME})
 
-if (MSVC)
-	TI_COPY_DLLS()
-endif()
 
 # get_cmake_property(_variableNames VARIABLES)
 # foreach (_variableName ${_variableNames})
 #    message(STATUS "${_variableName}=${${_variableName}}")
 # endforeach()
+
+	### DependencyCollector
+if (MSVC)
+	set(DC_SCRIPT ${CMAKE_CURRENT_SOURCE_DIR}/../cmake/DependencyCollector.py)
+	set(DC_CONFIG ${CMAKE_BINARY_DIR}/DependencyCollector.ini)
+
+	GET_FILENAME_COMPONENT(VS_PATH ${CMAKE_LINKER} PATH)
+	if(CMAKE_CL_64)
+		SET(VS_PATH "${VS_PATH}/../../../Common7/IDE/Remote Debugger/x64")
+	else()
+		SET(VS_PATH "${VS_PATH}/../../Common7/IDE/Remote Debugger/x86")
+	endif()
+	SET(DC_PATHS_RELEASE ${OpenCV_DIR}/bin/Release ${QT_QMAKE_PATH} ${VS_PATH} ${RDF_BUILD_DIRECTORY}/Release ${CURL_BUILD_DIR}/lib/Release)
+	SET(DC_PATHS_DEBUG ${OpenCV_DIR}/bin/Debug ${QT_QMAKE_PATH} ${VS_PATH} ${RDF_BUILD_DIRECTORY}/Debug ${CURL_BUILD_DIR}/lib/Debug)
+
+	configure_file(${CMAKE_SOURCE_DIR}/cmake/DependencyCollector.config.cmake.in ${DC_CONFIG})
+
+	add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND python ${DC_SCRIPT} --infile $<TARGET_FILE:${PROJECT_NAME}> --configfile ${DC_CONFIG} --configuration $<CONFIGURATION>)
+endif(MSVC)

@@ -87,9 +87,6 @@ if (WITH_WRITERRETRIEVAL)
 	add_subdirectory(writerretrieval_plugin)
 endif()
 
-if (MSVC)
-	TI_COPY_DLLS()
-endif()
 
 #debug for printing out all variables 
 # get_cmake_property(_variableNames VARIABLES)
