@@ -71,8 +71,8 @@ if (MSVC)
 	else()
 		SET(VS_PATH "${VS_PATH}/../../Common7/IDE/Remote Debugger/x86")
 	endif()
-	SET(DC_PATHS_RELEASE ${OpenCV_DIR}/bin/Release ${QT_QMAKE_PATH} ${VS_PATH} ${RDF_BUILD_DIRECTORY}/Release ${CURL_BUILD_DIR}/lib/Release)
-	SET(DC_PATHS_DEBUG ${OpenCV_DIR}/bin/Debug ${QT_QMAKE_PATH} ${VS_PATH} ${RDF_BUILD_DIRECTORY}/Debug ${CURL_BUILD_DIR}/lib/Debug)
+	SET(DC_PATHS_RELEASE ${OpenCV_DIR}/bin/Release ${QT_QMAKE_PATH} ${VS_PATH} ${RDF_BUILD_DIRECTORY}/Release ${CURL_BUILD_DIR_RELASE})
+	SET(DC_PATHS_DEBUG ${OpenCV_DIR}/bin/Debug ${QT_QMAKE_PATH} ${VS_PATH} ${RDF_BUILD_DIRECTORY}/Debug ${CURL_BUILD_DIR_DEBUG})
 
 	configure_file(${CMAKE_SOURCE_DIR}/cmake/DependencyCollector.config.cmake.in ${DC_CONFIG})
 

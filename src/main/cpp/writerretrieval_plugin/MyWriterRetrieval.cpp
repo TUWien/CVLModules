@@ -56,7 +56,7 @@ std::string MyWriterRetrieval::process(const Image& image, const std::string& xm
 				featureStream << ",";
 		}
 	}
-	std::cout << feature;
+	
 	return featureStream.str();
 }
 
@@ -70,7 +70,6 @@ Image MyWriterRetrieval::distances(const Image& features,
 		if(ids[i].compare("vocPath") == 0)
 			vocPath = props[i];
 	}
-
 
 	if(vocPath == "") {
 		std::cout << "vocabulary path not set ... aborting";

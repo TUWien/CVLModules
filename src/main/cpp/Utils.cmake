@@ -43,8 +43,9 @@ macro(TI_CREATE_TARGETS)
 		else()
 			SET(VS_PATH "${VS_PATH}/../../Common7/IDE/Remote Debugger/x86")
 		endif()
-		SET(DC_PATHS_RELEASE ${OpenCV_DIR}/bin/Release ${QT_QMAKE_PATH} ${VS_PATH} ${RDF_BUILD_DIRECTORY}/Release ${CURL_BUILD_DIR}/lib/Release)
-		SET(DC_PATHS_DEBUG ${OpenCV_DIR}/bin/Debug ${QT_QMAKE_PATH} ${VS_PATH} ${RDF_BUILD_DIRECTORY}/Debug ${CURL_BUILD_DIR}/lib/Debug)
+		SET(DC_PATHS_RELEASE ${OpenCV_DIR}/bin/Release ${QT_QMAKE_PATH} ${VS_PATH} ${RDF_BUILD_DIRECTORY}/Release ${CURL_BUILD_DIR_RELASE})
+		SET(DC_PATHS_DEBUG ${OpenCV_DIR}/bin/Debug ${QT_QMAKE_PATH} ${VS_PATH} ${RDF_BUILD_DIRECTORY}/Debug ${CURL_BUILD_DIR_DEBUG})
+		
 
 		configure_file(${CMAKE_SOURCE_DIR}/cmake/DependencyCollector.config.cmake.in ${DC_CONFIG})
 
@@ -146,7 +147,12 @@ macro(TI_FIND_CURL)
 		else()
 			find_package(CURL REQUIRED)
 		endif()
-
+		
+		# for dependency collector
+		set(CURL_BUILD_DIR_RELASE ${CURL_BUILD_DIR}/lib/Release)
+		set(CURL_BUILD_DIR_DEBUG ${CURL_BUILD_DIR}/lib/Debug)
+		
+		
 		if (NOT CURL_FOUND)
 
 			# let the user set the cURL include path
